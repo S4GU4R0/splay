@@ -23,10 +23,6 @@
                 {
                     "icon": "🏰",
                     "command": "https://spdrcstl.com/"
-                },
-                {
-                    "icon": "🐞",
-                    "command": "https://emreed.net/"
                 }
             ],
             "cell": [
