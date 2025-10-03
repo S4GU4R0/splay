@@ -974,13 +974,18 @@ async function loaded() {
         if (storedKey && !apiKeyInput.value) {
             apiKeyInput.value = storedKey;
         }
-
+        
         function saveApiKeyToLocalStorage() {
             const key = apiKeyInput.value.trim();
             localStorage.setItem('jsonlinkApiKey', key);
             console.log('[DEBUG] Saved API key to localStorage:', key);
         }
-
+        
+        // Save immediately if there's already a value in the input
+        if (apiKeyInput.value.trim()) {
+            saveApiKeyToLocalStorage();
+        }
+        
         apiKeyInput.addEventListener('input', saveApiKeyToLocalStorage);
         apiKeyInput.addEventListener('change', saveApiKeyToLocalStorage);
         apiKeyInput.addEventListener('blur', saveApiKeyToLocalStorage);
@@ -1041,10 +1046,13 @@ async function loaded() {
                         console.log('[DEBUG] JSONLink response status:', res.status);
                         const data = await res.json();
                         console.log('[DEBUG] JSONLink response data:', data);
-                        const title = data.ogTitle || data.title || url;
-                        const description = data.ogDescription || data.description || '';
-                        const image = data.ogImage || data.image || '';
-                        return { title, description, image };
+                        const title = data.title || url;
+                        const description = data.description || '';
+                        const imageUrl = (data.images && data.images.length > 0) ? data.images[0] : '';
+                        
+                        console.log('[DEBUG] Image URL from JSONLink:', imageUrl);
+                        
+                        return { title, description, image: imageUrl };
                     } catch (e) {
                         console.error('[DEBUG] JSONLink fetch error:', e);
                         return { title: url };

@@ -1,6 +1,6 @@
-# domino
+# splay
 
-tools for developing the tool "domino"
+tools for developing the tool "splay" a fork of "domino"
 
 ## how to get started
 
@@ -31,3 +31,10 @@ build the standalone domino page to `dist/index.html`:
 
 ## license
 [MIT License](./LICENSE)
+
+
+## Roadmap 
+
+- [x] paste in URLs
+- [x] get openGraph data (allows user to put in JSONLink API key)
+- [ ] webhook for sharing links to current board
