@@ -7,7 +7,7 @@ click and drag to navigate the board. double click a card to jump to it. some
 cards have emoji icons along the bottom that perform various actions when 
 clicked.
 
-this page is also a working copy of domino. toggle into unlocked mode with
+this page is also a working copy of splay. toggle into unlocked mode with
 the 🔓 icon on the toolbar, and made your own changes.
 
 ## keyboard shortcuts
