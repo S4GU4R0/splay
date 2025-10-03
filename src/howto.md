@@ -22,4 +22,4 @@ the 🔓 icon on the toolbar, and made your own changes.
 | **ctrl+drag** | make copy of card   |
 
 
-[1]: https://kool.tools/domino/
+[1]: https://github.com/s4gu4r0/splay
