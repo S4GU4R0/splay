@@ -18,6 +18,9 @@ npm install -g jstransformer-markdown-it
 ```
 
 ### developer scripts
+
+Note: I changed these to use the docs directory to work better with GitHub Pages. 
+
 run a local server that loads the standalone domino page and refreshes it 
 whenever you make changes:
 ```

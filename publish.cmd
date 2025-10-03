@@ -1,2 +1,2 @@
 call build
-neocities upload -d domino .\dist\index.html
+neocities upload -d splay .\docs\index.html

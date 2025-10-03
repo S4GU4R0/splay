@@ -1,5 +1,5 @@
 ## what is this
-this page was created using a tool called [domino][1]. it is a spatial
+this page was created using a tool called [splay][1]. it is a spatial
 arrangement of cards that together might form an essay or a mind map or a 
 collage or something else entirely.
 
