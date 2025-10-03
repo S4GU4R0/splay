@@ -10,7 +10,7 @@ function findCardStyleNames() {
                 if (names)
                     styles.add(names[1]);
             }
-        } catch (e) {}
+        } catch (e) { }
     });
     return Array.from(styles);
 }
@@ -60,7 +60,7 @@ function setupClassHooks() {
 
     const tabsets = new Set(
         ALL('[data-tab-set]')
-        .map(element => element.getAttribute('data-tab-set'))
+            .map(element => element.getAttribute('data-tab-set'))
     );
 
     tabsets.forEach(tabset => {
@@ -150,7 +150,7 @@ async function fileToCompressedImage(file) {
 async function dataTransferToImage(dt) {
     const files = filesFromDataTransfer(dt);
     const element = elementFromDataTransfer(dt);
-    const originURL = element && element.src; 
+    const originURL = element && element.src;
     if (files.length > 0) {
         const dataURL = await fileToCompressedImage(files[0]);
         return { dataURL, originURL };
@@ -173,7 +173,7 @@ function projectToHTML() {
 
 function exportProject() {
     const { html, name } = projectToHTML();
-    const blob = new Blob([html], {type: "text/html"});
+    const blob = new Blob([html], { type: "text/html" });
     saveAs(blob, `${name}.html`);
 }
 
@@ -181,7 +181,7 @@ function getCoordsFromHash() {
     try {
         const coords = location.hash.slice(1).split(',').map(i => parseInt(i) || 0);
         if (coords.length === 2) return coords;
-    } catch(e) {}
+    } catch (e) { }
 
     return [0, 0];
 }
@@ -201,7 +201,7 @@ class Domino {
         this.audio.play();
     }
 
-    display(url, size=[800, 600]) {
+    display(url, size = [800, 600]) {
         const frame = ONE('#display-frame');
         const [w, h] = size;
         ONE('#display-screen').hidden = false;
@@ -254,7 +254,7 @@ class Domino {
     }
 
     haltPanningTransition() {
-        if (this.scene.classList.contains('skip-transition')) 
+        if (this.scene.classList.contains('skip-transition'))
             return;
 
         this.scene.style.transform = window.getComputedStyle(this.scene).transform;
@@ -319,7 +319,7 @@ class Domino {
 
         this.scene.appendChild(view.root);
         this.moveCardToCell(view, card.cell);
-    
+
         return view;
     }
 
@@ -340,10 +340,10 @@ class Domino {
     swapCells(a, b) {
         const aView = this.cellToView.get(a);
         const bView = this.cellToView.get(b);
-    
+
         this.cellToView.delete(a);
         this.cellToView.delete(b);
-    
+
         if (aView)
             this.moveCardToCell(aView, b);
         if (bView)
@@ -396,12 +396,12 @@ class Domino {
         data.cards.sort((a, b) => sqrdist(a.cell, this.focusedCell) - sqrdist(b.cell, this.focusedCell));
         const loadCard = card => this.addCard(card).transition = false;
         chunkedForeach(data.cards, 30, loadCard)
-        .then(() => sleep(1))
-        .then(() => {
-            for (let view of this.cellToView.store.values())
-                view.transition = true;
-            ONE('#load-screen').hidden = true;
-        });
+            .then(() => sleep(1))
+            .then(() => {
+                for (let view of this.cellToView.store.values())
+                    view.transition = true;
+                ONE('#load-screen').hidden = true;
+            });
     }
 
     getData() {
@@ -415,7 +415,7 @@ class Domino {
         this.editorPreview = ONE('#editor-preview');
         this.scene = ONE('#scene');
         this.coords = ONE('#coords');
-        
+
         this.styleInput = ONE('#style-input');
         this.refreshStyle();
 
@@ -431,7 +431,7 @@ class Domino {
         this.lockedButton = ONE('#locked');
         this.unlockedButton = ONE('#unlocked');
 
-        addListener(this.lockedButton,   'click', () => this.setUnlocked(true));
+        addListener(this.lockedButton, 'click', () => this.setUnlocked(true));
         addListener(this.unlockedButton, 'click', () => this.setUnlocked(false));
 
         const cardEditButton = ONE('#edit-card', this.cardbar);
@@ -441,7 +441,7 @@ class Domino {
 
         const onClickedCell = (event) => {
             if (this.pan) return;
-            if (event.button && event.button === 2) 
+            if (event.button && event.button === 2)
                 return;
             killEvent(event);
             this.deselect();
@@ -467,18 +467,18 @@ class Domino {
 
         // clicking listeners
         addListener(cardEditButton, 'click', e => { killEvent(e); this.editCardView(this.selectedCardView); });
-        addListener('#center',      'click', e => { killEvent(e);  this.focusCell([0, 0]); });
-        addListener('#open-about',  'click', e => { killEvent(e);  this.aboutScreen.hidden = false; });
-        addListener('#reset',       'click', e => this.clear());
-        addListener('#import',      'click', e => importFile.click());
-        addListener('#export',      'click', e => exportProject());
-        addListener('#fullscreen',  'click', e => toggleFullscreen());
+        addListener('#center', 'click', e => { killEvent(e); this.focusCell([0, 0]); });
+        addListener('#open-about', 'click', e => { killEvent(e); this.aboutScreen.hidden = false; });
+        addListener('#reset', 'click', e => this.clear());
+        addListener('#import', 'click', e => importFile.click());
+        addListener('#export', 'click', e => exportProject());
+        addListener('#fullscreen', 'click', e => toggleFullscreen());
 
         const panBlocker = ONE('#pan-blocker');
 
         this.pan = undefined;
         this.touches = new Map();
-        
+
         addListener('#zoom', 'click', event => {
             this.toggleZoom();
             killEvent(event);
@@ -496,7 +496,7 @@ class Domino {
 
         panBlocker.addEventListener('pointerdown', onDown);
         window.addEventListener('pointerdown', onDown);
-        
+
         window.addEventListener('dblclick', () => onClickedCell(event));
 
         const onDonePanning = event => {
@@ -509,7 +509,7 @@ class Domino {
 
         panBlocker.addEventListener('pointerup', onDonePanning);
         window.addEventListener('pointerup', onDonePanning);
-        
+
         const onMove = event => {
             if (!this.pan) return;
 
@@ -565,10 +565,10 @@ class Domino {
             const view = this.cellToView.get(JSON.parse(originJson));
             this.removeCard(view);
         }
-        
+
         setElementDragoverDropEffect(this.addDeleteCardIcon, 'move');
         addListener(this.addDeleteCardIcon, 'dragstart', onDragFromNewCard);
-        addListener(this.addDeleteCardIcon, 'drop',      onDroppedOnDelete);
+        addListener(this.addDeleteCardIcon, 'drop', onDroppedOnDelete);
         addListener(this.addDeleteCardIcon, 'pointerdown', event => event.stopPropagation());
 
         const onDroppedOnCell = async (event) => {
@@ -580,6 +580,19 @@ class Domino {
             const urilist = dt.getData('text/uri-list');
 
             let view;
+
+            // Helper to fetch metadata from a URL
+            async function fetchUrlMeta(url) {
+                try {
+                    const res = await fetch(url);
+                    const html = await res.text();
+                    const titleMatch = html.match(/<title>(.*?)<\/title>/i);
+                    const title = titleMatch ? titleMatch[1] : url;
+                    return { title };
+                } catch (e) {
+                    return { title: url };
+                }
+            }
 
             if (image) {
                 view = this.putImageInCell(dropCell, image);
@@ -596,13 +609,32 @@ class Domino {
                 view = this.swapCells(originCell, dropCell);
             } else if (urilist) {
                 const uris = urilist.split('\n').filter(uri => !uri.startsWith('#'));
-                const commands = uris.map(uri => uri.startsWith('jump:') ? uri : 'open:' + uri);
-                const icons = commands.map(command => { return {icon: '🔗', command}; });
-                view = this.putIconsInCell(dropCell, ...icons);
+                let lastCell = dropCell;
+                for (const [i, url] of uris.entries()) {
+                    const meta = await fetchUrlMeta(url);
+                    // For each URL, create a new card in a nearby cell
+                    const cell = i === 0 ? dropCell : this.grid.pixelToCell([this.grid.cellToPixel(dropCell)[0] + i * 40, this.grid.cellToPixel(dropCell)[1]]);
+                    const cardView = this.getOrSpawnCard(cell);
+                    cardView.card.text = meta.title;
+                    cardView.card.icons = [{ icon: '🔗', command: 'open:' + url }];
+                    cardView.refresh();
+                    lastCell = cell;
+                }
+                view = this.cellToView.get(dropCell);
             } else {
                 const text = dt.getData('text') || dt.getData('text/plain');
-                if (text)
-                view = this.putTextInCell(dropCell, text);
+                // If text is a URL, autofill
+                const urlPattern = /^https?:\/\//i;
+                if (text && urlPattern.test(text.trim())) {
+                    const url = text.trim();
+                    const meta = await fetchUrlMeta(url);
+                    view = this.getOrSpawnCard(dropCell);
+                    view.card.text = meta.title;
+                    view.card.icons = [{ icon: '🔗', command: 'open:' + url }];
+                    view.refresh();
+                } else if (text) {
+                    view = this.putTextInCell(dropCell, text);
+                }
             }
 
             if (view)
@@ -611,7 +643,7 @@ class Domino {
 
         addListener(cardLinkButton, 'dragstart', onDragFromLinkCard);
         addListener(this.editorScreen.root, 'drop', killEvent);
-        addListener(screen,                 'drop', onDroppedOnCell);
+        addListener(screen, 'drop', onDroppedOnCell);
 
         addListener('#coords', 'pointerdown', e => e.stopPropagation());
         addListener('#coords', 'dragstart', event => {
@@ -632,7 +664,7 @@ class Domino {
             element.setAttribute('draggable', unlocked ? 'true' : 'false');
         });
     }
-    
+
     deselect() { this.selectCardView(undefined); }
 
     editStyle() {
@@ -694,7 +726,7 @@ class Domino {
         const view = this.getOrSpawnCard(cell);
         view.card.image = image.dataURL;
         if (image.originURL)
-            this.putIconsInCell(cell, {icon: '🔗', command: 'open:' + image.originURL});
+            this.putIconsInCell(cell, { icon: '🔗', command: 'open:' + image.originURL });
         view.refresh();
         return view;
     }
@@ -704,7 +736,7 @@ class Domino {
         view.card.icons = view.card.icons || [];
         for (let i = 0; i < 4; ++i) {
             if (view.card.icons.length === i)
-                view.card.icons.push({icon: '', command: ''});
+                view.card.icons.push({ icon: '', command: '' });
             if (view.card.icons[i].icon === '' && rows.length > 0)
                 view.card.icons[i] = rows.shift();
         }
@@ -856,8 +888,8 @@ class CardView {
         Array.from(this.icons.children).forEach((icon, i) => {
             addListener(icon, 'pointerdown', e => e.stopPropagation());
             addListener(icon, 'dblclick', e => e.stopPropagation());
-            addListener(icon, 'click', e => { 
-                killEvent(e); 
+            addListener(icon, 'click', e => {
+                killEvent(e);
                 domino.runCommand(this.card.icons[i].command)
             });
         });
@@ -867,12 +899,12 @@ class CardView {
 
     get cell() { return this.card.cell; }
 
-    set position(value) { 
+    set position(value) {
         this._position = value;
         this.updateTransform();
     }
 
-    set scale(value) { 
+    set scale(value) {
         this._scale = value;
         this.updateTransform();
     }
@@ -899,7 +931,7 @@ class CardView {
         const [x, y] = this._position;
         const [w, h] = [this.root.offsetWidth, this.root.offsetHeight];
 
-        const position = `translate(${x - w/2}px, ${y - h/2}px)`;
+        const position = `translate(${x - w / 2}px, ${y - h / 2}px)`;
         const scaling = `scale(${this._scale}, ${this._scale})`;
         this.root.style.transform = `${position} ${scaling}`;
     }
@@ -920,7 +952,7 @@ class CardView {
             button.classList.toggle('cosmetic', row.command === '');
         });
     }
-    
+
     refresh() {
         this.updateContent();
         this.updateTransform();
@@ -934,6 +966,26 @@ async function loaded() {
 
     domino.setup();
 
+    // API key input logic - NOW INSIDE loaded()
+    const apiKeyInput = document.getElementById('api-key-input');
+    if (apiKeyInput) {
+        const storedKey = localStorage.getItem('jsonlinkApiKey') || '';
+        console.log('[DEBUG] Loading stored API key:', storedKey);
+        if (storedKey && !apiKeyInput.value) {
+            apiKeyInput.value = storedKey;
+        }
+
+        function saveApiKeyToLocalStorage() {
+            const key = apiKeyInput.value.trim();
+            localStorage.setItem('jsonlinkApiKey', key);
+            console.log('[DEBUG] Saved API key to localStorage:', key);
+        }
+
+        apiKeyInput.addEventListener('input', saveApiKeyToLocalStorage);
+        apiKeyInput.addEventListener('change', saveApiKeyToLocalStorage);
+        apiKeyInput.addEventListener('blur', saveApiKeyToLocalStorage);
+    }
+
     window.addEventListener('resize', updateDocumentVariables);
     updateDocumentVariables();
 
@@ -944,25 +996,75 @@ async function loaded() {
     const jumpFromHash = () => domino.focusCell(getCoordsFromHash());
     window.addEventListener('hashchange', jumpFromHash);
     window.addEventListener('resize', jumpFromHash);
-    
+
     // load data from embeded #data script tag
     const coords = getCoordsFromHash();
     const data = getElementJsonData('#data');
-    domino.setUnlocked(false);
+    domino.setUnlocked(true);
     domino.focusCellNoTransition(coords);
     domino.setData(data);
 
-    // image pasting
+    // image and URL pasting
     window.addEventListener('paste', async event => {
-        if (!domino.unlocked) return;
-        const image = await dataTransferToImage(event.clipboardData);
+        console.log('[DEBUG] Paste event fired');
+        const clipboard = event.clipboardData;
+        const image = await dataTransferToImage(clipboard);
+        const text = clipboard.getData('text') || clipboard.getData('text/plain');
 
+        // If image, paste to selected card
         if (image && domino.selectedCardView) {
+            console.log('[DEBUG] Pasting image to selected card');
             const cell = domino.selectedCardView.card.cell;
             domino.putImageInCell(cell, image);
             killEvent(event);
             return;
         }
+
+        // If text is URLs, create new cards at focus
+        const urlPattern = /^https?:\/\//i;
+        if (text && urlPattern.test(text.trim())) {
+            console.log('[DEBUG] Pasting URLs:', text);
+            const urls = text.split(/\r?\n/).map(u => u.trim()).filter(u => urlPattern.test(u));
+            let basePixel = domino.grid.cellToPixel(domino.focusedCell);
+            for (let i = 0; i < urls.length; ++i) {
+                const url = urls[i];
+                async function fetchJsonlinkMeta(url) {
+                    try {
+                        const key = localStorage.getItem('jsonlinkApiKey') || '';
+                        if (!key) {
+                            console.warn('[DEBUG] No API key set, skipping fetch for', url);
+                            return { title: url };
+                        }
+                        const api = `https://jsonlink.io/api/extract?url=${encodeURIComponent(url)}&api_key=${encodeURIComponent(key)}`;
+                        console.log('[DEBUG] Fetching JSONLink API:', api);
+                        const res = await fetch(api);
+                        console.log('[DEBUG] JSONLink response status:', res.status);
+                        const data = await res.json();
+                        console.log('[DEBUG] JSONLink response data:', data);
+                        const title = data.ogTitle || data.title || url;
+                        const description = data.ogDescription || data.description || '';
+                        const image = data.ogImage || data.image || '';
+                        return { title, description, image };
+                    } catch (e) {
+                        console.error('[DEBUG] JSONLink fetch error:', e);
+                        return { title: url };
+                    }
+                }
+                const meta = await fetchJsonlinkMeta(url);
+                const cell = domino.grid.pixelToCell([basePixel[0] + i * 40, basePixel[1]]);
+                const card = {
+                    cell,
+                    text: meta.title + (meta.description ? ('\n' + meta.description) : ''),
+                    type: domino.editorScreen.types[0],
+                    icons: [{ icon: '🔗', command: 'open:' + url }]
+                };
+                if (meta.image) card.image = meta.image;
+                const view = domino.spawnCard(card);
+                view.refresh();
+                console.log('[DEBUG] Card DOM node:', view.root);
+            }
+        }
+        console.log('[DEBUG] Paste event did not match any handler');
     });
 
     // keyboard shortcuts
@@ -987,17 +1089,17 @@ async function loaded() {
         }
 
         const [q, r] = domino.focusedCell;
-        if (event.key === 'ArrowLeft')  domino.focusCell(event.shiftKey ? [q - 1, r + 0] : [q - 1, r + 1]);
+        if (event.key === 'ArrowLeft') domino.focusCell(event.shiftKey ? [q - 1, r + 0] : [q - 1, r + 1]);
         if (event.key === 'ArrowRight') domino.focusCell(event.shiftKey ? [q + 1, r + 0] : [q + 1, r - 1]);
-        if (event.key === 'ArrowUp')    domino.focusCell([q + 0, r - 1]);
-        if (event.key === 'ArrowDown')  domino.focusCell([q + 0, r + 1]);
+        if (event.key === 'ArrowUp') domino.focusCell([q + 0, r - 1]);
+        if (event.key === 'ArrowDown') domino.focusCell([q + 0, r + 1]);
 
-        if (event.code === 'KeyQ')  domino.focusCell([q - 1, r + 0]);
-        if (event.code === 'KeyW')  domino.focusCell([q + 0, r - 1]);
-        if (event.code === 'KeyE')  domino.focusCell([q + 1, r - 1]);
-        if (event.code === 'KeyA')  domino.focusCell([q - 1, r + 1]);
-        if (event.code === 'KeyS')  domino.focusCell([q + 0, r + 1]);
-        if (event.code === 'KeyD')  domino.focusCell([q + 1, r + 0]);
+        if (event.code === 'KeyQ') domino.focusCell([q - 1, r + 0]);
+        if (event.code === 'KeyW') domino.focusCell([q + 0, r - 1]);
+        if (event.code === 'KeyE') domino.focusCell([q + 1, r - 1]);
+        if (event.code === 'KeyA') domino.focusCell([q - 1, r + 1]);
+        if (event.code === 'KeyS') domino.focusCell([q + 0, r + 1]);
+        if (event.code === 'KeyD') domino.focusCell([q + 1, r + 0]);
 
         if (event.key === ' ') domino.toggleZoom();
     });
@@ -1043,7 +1145,7 @@ async function loaded() {
         });
 
         const popup = window.open(
-            "https://kool.tools/neocities-publisher/index.html", 
+            "https://kool.tools/neocities-publisher/index.html",
             "neocities publisher",
             "left=10,top=10,width=320,height=320");
         const { name, html } = projectToHTML();
